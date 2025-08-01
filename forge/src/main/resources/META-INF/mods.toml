@@ -1,0 +1,39 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+
+license = "UNLICENSED"
+
+[[mods]]
+modId = "loadingbackgrounds"
+version = "${version}"
+
+displayName = "Loading Backgrounds"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/loading-backgrounds"
+
+authors = "luavixen <lua@foxgirl.dev> (https://foxgirl.dev/)"
+description = '''
+Custom loading screen backgrounds loaded from resource packs
+'''
+
+logoFile = "loadingbackgrounds-icon.png"
+
+[[dependencies.loadingbackgrounds]]
+modId = "forge"
+mandatory = true
+versionRange = "[47,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.loadingbackgrounds]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[${minecraft_version_min},${minecraft_version_max})"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.loadingbackgrounds]]
+modId = "architectury"
+mandatory = true
+versionRange = "[9.2.14,)"
+ordering = "AFTER"
+side = "BOTH"

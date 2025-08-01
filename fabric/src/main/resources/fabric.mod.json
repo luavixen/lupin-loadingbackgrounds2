@@ -1,0 +1,46 @@
+{
+    "schemaVersion": 1,
+
+    "id": "loadingbackgrounds",
+    "version": "${version}",
+
+    "depends": {
+        "java": ">=17",
+        "fabricloader": ">=0.14.0",
+        "minecraft": "${minecraft_version_semver}",
+        "fabric-api": "*",
+        "architectury": "*"
+    },
+
+    "name": "Loading Backgrounds",
+    "description": "Custom loading screen backgrounds loaded from resource packs",
+
+    "icon": "loadingbackgrounds-icon.png",
+
+    "license": "UNLICENSED",
+    "authors": [
+        {
+            "name": "luavixen",
+            "contact": {
+                "email": "lua@foxgirl.dev",
+                "website": "https://foxgirl.dev/"
+            }
+        }
+    ],
+
+    "contact": {
+        "homepage": "https://www.curseforge.com/minecraft/mc-mods/loading-backgrounds"
+    },
+
+    "entrypoints": {
+        "client": [
+            "dev.foxgirl.mc.loadingbackgrounds.LoadingBackgroundsFabric"
+        ]
+    },
+    "mixins": [
+        {
+            "config": "loadingbackgrounds-mixins.json",
+            "environment": "client"
+        }
+    ]
+}
