@@ -1,4 +1,5 @@
 plugins {
+    id 'org.jetbrains.kotlin.jvm' version '2.2.0'
     id 'architectury-plugin' version '3.4-SNAPSHOT'
     id 'dev.architectury.loom' version '1.10-SNAPSHOT' apply false
     id 'com.gradleup.shadow' version '8.3.8' apply false
@@ -14,6 +15,7 @@ allprojects {
 }
 
 subprojects {
+    apply plugin: 'kotlin'
     apply plugin: 'architectury-plugin'
     apply plugin: 'dev.architectury.loom'
 
@@ -27,11 +29,19 @@ subprojects {
         // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
         // See https://docs.gradle.org/current/userguide/declaring_repositories.html
         // for more information about repositories.
+        maven { url 'https://maven.parchmentmc.org' }
     }
 
     dependencies {
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
-        mappings loom.officialMojangMappings()
+        mappings loom.layered() {
+            officialMojangMappings()
+            parchment("org.parchmentmc.data:parchment-${rootProject.minecraft_version}:${rootProject.parchment_mappings}@zip")
+        }
+    }
+
+    kotlin {
+        jvmToolchain(17)
     }
 
     java {
