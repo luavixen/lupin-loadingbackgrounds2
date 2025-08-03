@@ -6,11 +6,11 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(LoadingBackgroundsKt.MOD_ID)
+@Mod("loadingbackgrounds")
 public final class LoadingBackgroundsForge {
 
     public LoadingBackgroundsForge() {
-        EventBuses.registerModEventBus(LoadingBackgroundsKt.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
+        EventBuses.registerModEventBus("loadingbackgrounds", FMLJavaModLoadingContext.get().getModEventBus());
         DistExecutor.safeCallWhenOn(Dist.CLIENT, () -> LoadingBackgrounds::initCallable);
     }
 

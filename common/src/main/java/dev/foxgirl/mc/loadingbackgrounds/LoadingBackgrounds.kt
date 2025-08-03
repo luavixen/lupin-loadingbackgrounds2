@@ -15,9 +15,9 @@ import net.minecraft.server.packs.repository.PackRepository
 import net.minecraft.server.packs.resources.ReloadableResourceManager
 import net.minecraft.util.Unit
 import org.apache.logging.log4j.Logger
-import java.util.concurrent.*
-
-const val MOD_ID = "loadingbackgrounds"
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
+import java.util.concurrent.TimeUnit
 
 val logger: Logger get() = LoadingBackgrounds.LOGGER
 
