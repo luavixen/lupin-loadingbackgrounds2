@@ -21,21 +21,28 @@ public abstract class ScreenMixin {
         at = @At("RETURN"), require = 0, remap = false
     )
     private void loadingbackgrounds$inject$renderDirtBackground$mojang(GuiGraphics gui, CallbackInfo info) {
-        LoadingBackgrounds.renderBackground((Screen) (Object) this, gui);
+        LoadingBackgrounds.renderBackground(this, gui);
     }
     @Inject(
         method = "method_25434(Lnet/minecraft/class_332;)V",
         at = @At("RETURN"), require = 0, remap = false
     )
     private void loadingbackgrounds$inject$renderDirtBackground$intermediary(GuiGraphics gui, CallbackInfo info) {
-        LoadingBackgrounds.renderBackground((Screen) (Object) this, gui);
+        LoadingBackgrounds.renderBackground(this, gui);
     }
     @Inject(
         method = "m_280039_(Lnet/minecraft/src/C_279497_;)V",
         at = @At("RETURN"), require = 0, remap = false
     )
-    private void loadingbackgrounds$inject$renderDirtBackground$srg(GuiGraphics gui, CallbackInfo info) {
-        LoadingBackgrounds.renderBackground((Screen) (Object) this, gui);
+    private void loadingbackgrounds$inject$renderDirtBackground$srg_original(GuiGraphics gui, CallbackInfo info) {
+        LoadingBackgrounds.renderBackground(this, gui);
+    }
+    @Inject(
+        method = "m_280039_(Lnet/minecraft/client/gui/GuiGraphics;)V",
+        at = @At("RETURN"), require = 0, remap = false
+    )
+    private void loadingbackgrounds$inject$renderDirtBackground$srg_mojang(GuiGraphics gui, CallbackInfo info) {
+        LoadingBackgrounds.renderBackground(this, gui);
     }
 
     /*
@@ -81,7 +88,7 @@ public abstract class ScreenMixin {
         at = @At("RETURN"), require = 0, remap = false
     )
     private void loadingbackgrounds$inject$renderPanorama$mojang(GuiGraphics gui, float partialTick, CallbackInfo info) {
-        if (LoadingBackgrounds.renderBackground((Screen) (Object) this, gui)) {
+        if (LoadingBackgrounds.renderBackground(this, gui)) {
             loadingbackgrounds$renderedMillisecond = loadingbackgrounds$currentMillisecond();
         }
     }
@@ -90,7 +97,7 @@ public abstract class ScreenMixin {
         at = @At("RETURN"), require = 0, remap = false
     )
     private void loadingbackgrounds$inject$renderPanorama$intermediary(GuiGraphics gui, float partialTick, CallbackInfo info) {
-        if (LoadingBackgrounds.renderBackground((Screen) (Object) this, gui)) {
+        if (LoadingBackgrounds.renderBackground(this, gui)) {
             loadingbackgrounds$renderedMillisecond = loadingbackgrounds$currentMillisecond();
         }
     }

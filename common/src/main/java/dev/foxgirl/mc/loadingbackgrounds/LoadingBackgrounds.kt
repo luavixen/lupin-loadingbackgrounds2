@@ -15,10 +15,7 @@ import net.minecraft.server.packs.repository.PackRepository
 import net.minecraft.server.packs.resources.ReloadableResourceManager
 import net.minecraft.util.Unit
 import org.apache.logging.log4j.Logger
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Executor
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.*
 
 const val MOD_ID = "loadingbackgrounds"
 
@@ -36,10 +33,24 @@ val resourceManager: ReloadableResourceManager
 val textureManager: TextureManager
     get() = minecraft.textureManager
 
-val backgroundExecutor: ExecutorService
-    get() = Util.backgroundExecutor()
-val ioExecutor: ExecutorService
-    get() = Util.ioPool()
+val backgroundExecutor: Executor by lazy {
+    try {
+        // 1.21.2 switches the return type from ExecutorService to TracingExecutor
+        Util.backgroundExecutor()
+    } catch (_: NoSuchMethodError) {
+        // Quick fix: use the common ForkJoinPool
+        ForkJoinPool.commonPool()
+    }
+}
+val ioExecutor: Executor by lazy {
+    try {
+        // 1.21.2 switches the return type from ExecutorService to TracingExecutor
+        Util.ioPool()
+    } catch (_: NoSuchMethodError) {
+        // Quick fix: spin up our own pool
+        Executors.newCachedThreadPool()
+    }
+}
 
 val gameExecutor: Executor
     get() = minecraft
