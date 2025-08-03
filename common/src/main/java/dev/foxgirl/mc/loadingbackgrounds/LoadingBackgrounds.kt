@@ -19,9 +19,13 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 
+// Logger and config global variables:
+
 val logger: Logger get() = LoadingBackgrounds.LOGGER
 
 val config: Config by lazy { Config.load() }
+
+// Minecraft accessors:
 
 val minecraft: Minecraft get() = Minecraft.getInstance()
 
@@ -40,6 +44,8 @@ val ioExecutor: Executor
 
 val gameExecutor: Executor
     get() = minecraft
+
+// Loading message and loading screen checking:
 
 val loadingMessageTranslationKeys = setOf(
     "menu.generatingLevel",
@@ -75,6 +81,8 @@ fun isLoadingScreen(screen: Screen): Boolean {
     return isLoadingMessage(screen.title)
 }
 
+// Resource pack reloading:
+
 val resourcePackRegex = Regex("load(ing)?[\\W_]{0,3}(background|bg|image|img|pic)", RegexOption.IGNORE_CASE)
 
 var reloadResourcePacksHash = 0
@@ -109,6 +117,8 @@ fun reloadResourcePacks(): Boolean {
     }
 }
 
+// PNG selection, including calls to reload resources:
+
 fun selectPNGLocations(): List<ResourceLocation> {
     val resources = resourceManager.listResources("textures/gui/backgrounds") { it.path.endsWith(".png") }
     val locations = resources.keys.toList()
@@ -133,6 +143,8 @@ fun selectPNGs(): List<PNG> {
         return emptyList()
     }
 }
+
+// PNG rendering implementation:
 
 fun renderPNG(screen: Screen, gui: GuiGraphics, png: PNG, brightness: Float, opacity: Float) {
     var offsetX = 0.0F
@@ -182,6 +194,8 @@ fun renderPNG(screen: Screen, gui: GuiGraphics, png: PNG, brightness: Float, opa
     // RENDER IMPLEMENTATION END
 }
 
+// State used by renderBackground to control which images will render and how they will fade:
+
 val seconds: () -> Double = run {
     val start = System.nanoTime()
     return@run { (System.nanoTime() - start).toDouble() * 1e-9 }
@@ -195,6 +209,8 @@ var pngCurrent: PNG? = null
 var secondsAtChange = 0.0
 
 var isFading = false
+
+// Implementation of the actual background rendering code:
 
 fun renderBackground(screen: Screen, gui: GuiGraphics): Boolean {
 
@@ -245,6 +261,8 @@ fun renderBackground(screen: Screen, gui: GuiGraphics): Boolean {
     return true
 
 }
+
+// Empty init function:
 
 fun init() {
     logger.info("Hello from Loading Backgrounds :3c")

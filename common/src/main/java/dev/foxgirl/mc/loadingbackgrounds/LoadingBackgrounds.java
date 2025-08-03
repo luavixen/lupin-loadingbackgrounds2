@@ -12,6 +12,9 @@ public final class LoadingBackgrounds {
 
     public static final @NotNull Logger LOGGER = LogManager.getLogger("loadingbackgrounds");
 
+    /**
+     * Safely calls the {@link LoadingBackgroundsKt#getConfig()} method.
+     */
     public static Config getConfig() {
         if (Platform.getEnvironment() == Env.CLIENT) {
             try {
@@ -25,6 +28,9 @@ public final class LoadingBackgrounds {
         return new Config();
     }
 
+    /**
+     * Safely calls the {@link LoadingBackgroundsKt#renderBackground(Screen, GuiGraphics)} method.
+     */
     public static boolean renderBackground(@NotNull Object screen, @NotNull Object gui) {
         if (Platform.getEnvironment() == Env.CLIENT) {
             try {
@@ -38,18 +44,25 @@ public final class LoadingBackgrounds {
         return false;
     }
 
+    /**
+     * Safely calls the {@link LoadingBackgroundsKt#init()} method.
+     */
     public static void init() {
-        if (Platform.getEnvironment() != Env.CLIENT) {
+        if (Platform.getEnvironment() == Env.CLIENT) {
             try {
                 LoadingBackgroundsKt.init();
             } catch (Throwable throwable) {
                 LOGGER.error("Exception in init", throwable);
             }
         } else {
-            LOGGER.warn("Unexpected call to init on client?");
+            LOGGER.warn("Unexpected call to init on server?");
         }
     }
 
+    /**
+     * Version of the safe {@link #init()} method that returns {@link Void} instead of {@code void}.
+     * Can be used to implement {@link java.util.concurrent.Callable} as a lambda reference.
+     */
     public static Void initCallable() {
         init();
         return null;

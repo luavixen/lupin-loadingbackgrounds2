@@ -13,6 +13,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
+/**
+ * This mixin adjusts the position of the level loading progress widget based on the Loading Backgrounds configuration.
+ */
 @Mixin(LevelLoadingScreen.class)
 public abstract class LevelLoadingScreenMixin extends Screen {
 
@@ -22,6 +25,8 @@ public abstract class LevelLoadingScreenMixin extends Screen {
 
     @Shadow @Final
     private StoringChunkProgressListener progressListener;
+
+    // Adjust X position:
 
     @ModifyVariable(
         method = "render(Lnet/minecraft/client/gui/GuiGraphics;IIF)V",
@@ -46,6 +51,8 @@ public abstract class LevelLoadingScreenMixin extends Screen {
         return x;
     }
 
+    // Adjust Y position:
+
     @ModifyVariable(
         method = "render(Lnet/minecraft/client/gui/GuiGraphics;IIF)V",
         at = @At("STORE"), ordinal = 3
@@ -56,9 +63,11 @@ public abstract class LevelLoadingScreenMixin extends Screen {
             int height = this.height;
             int diameter = progressListener.getDiameter();
 
+            // The way the Y position affects the widget changed in ~1.20.4
+            // So we need to check the version here and use different math for different versions
             String version = Platform.getMinecraftVersion();
             if (
-                version.startsWith("1.21")
+                !version.startsWith("1.20")
                 || version.equals("1.20.5")
                 || version.equals("1.20.6")
             ) {

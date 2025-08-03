@@ -8,6 +8,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * This mixin adds calls to our custom renderBackground method to the background rendering functions of Screen.
+ * It will also automatically disable/cancel some background manipulation functions to preserve our custom backgrounds.
+ */
 @Mixin(Screen.class)
 public abstract class ScreenMixin {
 
