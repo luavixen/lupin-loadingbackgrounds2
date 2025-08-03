@@ -15,5 +15,4 @@ plugins {
 rootProject.name = 'lupin-loadingbackgrounds'
 
 include 'common'
-include 'fabric'
-include 'forge'
+include 'neoforge'
