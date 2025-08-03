@@ -11,10 +11,7 @@ public final class LoadingBackgroundsForge {
 
     public LoadingBackgroundsForge() {
         EventBuses.registerModEventBus(LoadingBackgroundsKt.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
-        DistExecutor.safeCallWhenOn(Dist.CLIENT, () -> {
-            LoadingBackgrounds.init();
-            return null;
-        });
+        DistExecutor.safeCallWhenOn(Dist.CLIENT, () -> LoadingBackgrounds::initCallable);
     }
 
 }

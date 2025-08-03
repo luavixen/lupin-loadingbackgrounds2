@@ -50,4 +50,9 @@ public final class LoadingBackgrounds {
         }
     }
 
+    public static Void initCallable() {
+        init();
+        return null;
+    }
+
 }
