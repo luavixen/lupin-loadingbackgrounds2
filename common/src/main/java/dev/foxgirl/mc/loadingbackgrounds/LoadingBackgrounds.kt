@@ -33,24 +33,10 @@ val resourceManager: ReloadableResourceManager
 val textureManager: TextureManager
     get() = minecraft.textureManager
 
-val backgroundExecutor: Executor by lazy {
-    try {
-        // 1.21.2 switches the return type from ExecutorService to TracingExecutor
-        Util.backgroundExecutor()
-    } catch (_: NoSuchMethodError) {
-        // Quick fix: use the common ForkJoinPool
-        ForkJoinPool.commonPool()
-    }
-}
-val ioExecutor: Executor by lazy {
-    try {
-        // 1.21.2 switches the return type from ExecutorService to TracingExecutor
-        Util.ioPool()
-    } catch (_: NoSuchMethodError) {
-        // Quick fix: spin up our own pool
-        Executors.newCachedThreadPool()
-    }
-}
+val backgroundExecutor: Executor
+    get() = Util.backgroundExecutor() as Executor
+val ioExecutor: Executor
+    get() = Util.ioPool() as Executor
 
 val gameExecutor: Executor
     get() = minecraft
@@ -167,6 +153,8 @@ fun renderPNG(screen: Screen, gui: GuiGraphics, png: PNG, brightness: Float, opa
         offsetY = 0.0F - ((screen.height.toFloat() - (png.height.toFloat() * scaleY)) * 0.5F)
     }
 
+    // RENDER IMPLEMENTATION START
+
     RenderSystem.defaultBlendFunc()
     RenderSystem.enableBlend()
 
@@ -190,6 +178,8 @@ fun renderPNG(screen: Screen, gui: GuiGraphics, png: PNG, brightness: Float, opa
     RenderSystem.setShaderTexture(0, shaderTexture)
 
     RenderSystem.disableBlend()
+
+    // RENDER IMPLEMENTATION END
 }
 
 val seconds: () -> Double = run {
