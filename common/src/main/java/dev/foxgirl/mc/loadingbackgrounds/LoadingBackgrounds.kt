@@ -6,11 +6,7 @@ import dev.foxgirl.mc.loadingbackgrounds.impl.PNG
 import net.minecraft.Util
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.screens.ConnectScreen
-import net.minecraft.client.gui.screens.LevelLoadingScreen
-import net.minecraft.client.gui.screens.ProgressScreen
-import net.minecraft.client.gui.screens.ReceivingLevelScreen
-import net.minecraft.client.gui.screens.Screen
+import net.minecraft.client.gui.screens.*
 import net.minecraft.client.renderer.texture.TextureManager
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.contents.TranslatableContents
@@ -18,13 +14,15 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.repository.PackRepository
 import net.minecraft.server.packs.resources.ReloadableResourceManager
 import net.minecraft.util.Unit
-import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
-import java.util.concurrent.*
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.TimeUnit
 
 const val MOD_ID = "loadingbackgrounds"
 
-val logger: Logger = LogManager.getLogger("loadingbackgrounds")
+val logger: Logger get() = LoadingBackgrounds.LOGGER
 
 val config: Config by lazy { Config.load() }
 

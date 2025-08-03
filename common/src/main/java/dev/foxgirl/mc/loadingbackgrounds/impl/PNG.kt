@@ -1,5 +1,6 @@
 package dev.foxgirl.mc.loadingbackgrounds.impl
 
+import dev.foxgirl.mc.loadingbackgrounds.impl.PNG.Companion.get
 import dev.foxgirl.mc.loadingbackgrounds.impl.async.Async
 import dev.foxgirl.mc.loadingbackgrounds.impl.async.Promise
 import dev.foxgirl.mc.loadingbackgrounds.ioExecutor

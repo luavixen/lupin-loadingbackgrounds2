@@ -8,7 +8,6 @@
         "java": ">=17",
         "fabricloader": ">=0.14.0",
         "minecraft": "${minecraft_version_semver}",
-        "fabric-api": "*",
         "architectury": "*"
     },
 

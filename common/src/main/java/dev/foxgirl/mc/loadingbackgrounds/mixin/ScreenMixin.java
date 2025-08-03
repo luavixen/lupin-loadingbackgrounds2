@@ -1,6 +1,6 @@
 package dev.foxgirl.mc.loadingbackgrounds.mixin;
 
-import dev.foxgirl.mc.loadingbackgrounds.LoadingBackgroundsKt;
+import dev.foxgirl.mc.loadingbackgrounds.LoadingBackgrounds;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,21 +21,21 @@ public abstract class ScreenMixin {
         at = @At("RETURN"), require = 0, remap = false
     )
     private void loadingbackgrounds$inject$renderDirtBackground$mojang(GuiGraphics gui, CallbackInfo info) {
-        LoadingBackgroundsKt.renderBackground((Screen) (Object) this, gui);
+        LoadingBackgrounds.renderBackground((Screen) (Object) this, gui);
     }
     @Inject(
         method = "method_25434(Lnet/minecraft/class_332;)V",
         at = @At("RETURN"), require = 0, remap = false
     )
     private void loadingbackgrounds$inject$renderDirtBackground$intermediary(GuiGraphics gui, CallbackInfo info) {
-        LoadingBackgroundsKt.renderBackground((Screen) (Object) this, gui);
+        LoadingBackgrounds.renderBackground((Screen) (Object) this, gui);
     }
     @Inject(
         method = "m_280039_(Lnet/minecraft/src/C_279497_;)V",
         at = @At("RETURN"), require = 0, remap = false
     )
     private void loadingbackgrounds$inject$renderDirtBackground$srg(GuiGraphics gui, CallbackInfo info) {
-        LoadingBackgroundsKt.renderBackground((Screen) (Object) this, gui);
+        LoadingBackgrounds.renderBackground((Screen) (Object) this, gui);
     }
 
     /*
@@ -47,14 +47,14 @@ public abstract class ScreenMixin {
 
     /*
     My injections into renderBlurredBackground and renderMenuBackground need to know if
-    LoadingBackgroundsKt.renderBackground was *just* called, and if it succeeded or not.
+    LoadingBackgrounds.renderBackground was *just* called, and if it succeeded or not.
     There are many solutions, but I want something that is extremely portable.
     So, I simply check how long it's been since the last successful
-    LoadingBackgroundsKt.renderBackground using System.nanoTime().
+    LoadingBackgrounds.renderBackground using System.nanoTime().
     Such an evil hack!
     */
 
-    // The current millisecond when LoadingBackgroundsKt.renderBackground last succeeded
+    // The current millisecond when LoadingBackgrounds.renderBackground last succeeded
     private long loadingbackgrounds$renderedMillisecond = Long.MIN_VALUE;
 
     // Returns the current millisecond with high accuracy
@@ -64,7 +64,7 @@ public abstract class ScreenMixin {
         return System.nanoTime() / 1000000L;
     }
 
-    // Checks if LoadingBackgroundsKt.renderBackground succeeded less than ~2 milliseconds ago
+    // Checks if LoadingBackgrounds.renderBackground succeeded less than ~2 milliseconds ago
     private boolean loadingbackgrounds$hasRendered() {
         long now = loadingbackgrounds$currentMillisecond();
         return loadingbackgrounds$renderedMillisecond == now
@@ -81,7 +81,7 @@ public abstract class ScreenMixin {
         at = @At("RETURN"), require = 0, remap = false
     )
     private void loadingbackgrounds$inject$renderPanorama$mojang(GuiGraphics gui, float partialTick, CallbackInfo info) {
-        if (LoadingBackgroundsKt.renderBackground((Screen) (Object) this, gui)) {
+        if (LoadingBackgrounds.renderBackground((Screen) (Object) this, gui)) {
             loadingbackgrounds$renderedMillisecond = loadingbackgrounds$currentMillisecond();
         }
     }
@@ -90,7 +90,7 @@ public abstract class ScreenMixin {
         at = @At("RETURN"), require = 0, remap = false
     )
     private void loadingbackgrounds$inject$renderPanorama$intermediary(GuiGraphics gui, float partialTick, CallbackInfo info) {
-        if (LoadingBackgroundsKt.renderBackground((Screen) (Object) this, gui)) {
+        if (LoadingBackgrounds.renderBackground((Screen) (Object) this, gui)) {
             loadingbackgrounds$renderedMillisecond = loadingbackgrounds$currentMillisecond();
         }
     }

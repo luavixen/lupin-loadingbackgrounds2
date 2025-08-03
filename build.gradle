@@ -1,3 +1,12 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.guardsquare:proguard-gradle:7.7.0'
+    }
+}
+
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '2.2.0'
     id 'architectury-plugin' version '3.4-SNAPSHOT'
@@ -18,6 +27,7 @@ subprojects {
     apply plugin: 'kotlin'
     apply plugin: 'architectury-plugin'
     apply plugin: 'dev.architectury.loom'
+    apply plugin: 'com.gradleup.shadow'
 
     base {
         archivesName = "$rootProject.archives_name-$project.name-$rootProject.minecraft_version"
@@ -32,12 +42,26 @@ subprojects {
         maven { url 'https://maven.parchmentmc.org' }
     }
 
+    configurations {
+        // Files in this configuration will be bundled into your mod using the Shadow plugin.
+        // Don't use the `shadow` configuration from the plugin itself as it's meant for excluding files.
+        shadowBundle {
+            canBeResolved = true
+            canBeConsumed = false
+        }
+    }
+
     dependencies {
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
+
         mappings loom.layered() {
             officialMojangMappings()
             parchment("org.parchmentmc.data:parchment-${rootProject.minecraft_version}:${rootProject.parchment_mappings}@zip")
         }
+
+        shadowBundle "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.kotlin_version}"
+        shadowBundle "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootProject.kotlin_version}"
+        shadowBundle "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${rootProject.kotlin_version}"
     }
 
     kotlin {
@@ -82,5 +106,41 @@ subprojects {
                 'minecraft_version_semver': rootProject.minecraft_version_semver,
             ])
         }
+    }
+
+    tasks.register('proguard', proguard.gradle.ProGuardTask) {
+        dependsOn remapJar
+
+        def inJar = remapJar.archiveFile.get()
+        def outJar = inJar.asFile.absolutePath.replace('.jar', '-bundle.jar')
+
+        injars inJar, filter: '!**.kotlin_builtins,!**.kotlin_module'
+        outjars outJar
+
+        libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod", jarfilter: '!**.jar', filter: '!module-info.class'
+
+        libraryjars provider {
+            configurations.runtimeClasspath.files.findAll { it.exists() }
+        }
+
+        dontoptimize
+
+        keep 'class dev.foxgirl.mc.** { *; }'
+
+        keepattributes '**'
+
+        repackageclasses 'dev.foxgirl.bundled'
+
+        keepclassmembernames 'class kotlin.** { *; }'
+
+        dontwarn 'net.minecraft.**'
+        dontwarn 'dev.foxgirl.mc.**'
+
+        dontnote 'kotlin.**'
+        dontnote 'org.intellij.**'
+    }
+
+    tasks.build {
+        dependsOn proguard
     }
 }

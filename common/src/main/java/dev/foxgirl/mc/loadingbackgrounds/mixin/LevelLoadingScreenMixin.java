@@ -2,7 +2,7 @@ package dev.foxgirl.mc.loadingbackgrounds.mixin;
 
 import dev.architectury.platform.Platform;
 import dev.foxgirl.mc.loadingbackgrounds.Config;
-import dev.foxgirl.mc.loadingbackgrounds.LoadingBackgroundsKt;
+import dev.foxgirl.mc.loadingbackgrounds.LoadingBackgrounds;
 import net.minecraft.client.gui.screens.LevelLoadingScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -28,7 +28,7 @@ public abstract class LevelLoadingScreenMixin extends Screen {
         at = @At("STORE"), ordinal = 2
     )
     private int loadingbackgrounds$render$0(int x) {
-        var position = LoadingBackgroundsKt.getConfig().getPosition();
+        var position = LoadingBackgrounds.getConfig().getPosition();
         if (position != Config.Position.CENTER) {
             int width = this.width;
             int diameter = progressListener.getDiameter();
@@ -51,7 +51,7 @@ public abstract class LevelLoadingScreenMixin extends Screen {
         at = @At("STORE"), ordinal = 3
     )
     private int loadingbackgrounds$render$1(int y) {
-        var position = LoadingBackgroundsKt.getConfig().getPosition();
+        var position = LoadingBackgrounds.getConfig().getPosition();
         if (position != Config.Position.CENTER) {
             int height = this.height;
             int diameter = progressListener.getDiameter();
