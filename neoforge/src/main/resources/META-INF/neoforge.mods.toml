@@ -17,10 +17,13 @@ Custom loading screen backgrounds loaded from resource packs
 
 logoFile = "loadingbackgrounds-icon.png"
 
+[[mixins]]
+config = "loadingbackgrounds-mixins.json"
+
 [[dependencies.loadingbackgrounds]]
-modId = "forge"
+modId = "neoforge"
 mandatory = true
-versionRange = "[53,)"
+versionRange = "[21.3,)"
 ordering = "NONE"
 side = "BOTH"
 

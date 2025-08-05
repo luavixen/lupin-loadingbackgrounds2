@@ -1,17 +1,17 @@
 package dev.foxgirl.mc.loadingbackgrounds;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.fml.loading.FMLPaths;
 
 import java.nio.file.Path;
 
 @Mod("loadingbackgrounds")
-public final class LoadingBackgroundsForge extends LoadedMod {
+public final class LoadingBackgroundsNeoForge extends LoadedMod {
 
-    public LoadingBackgroundsForge(FMLJavaModLoadingContext context) {
+    public LoadingBackgroundsNeoForge(IEventBus eventBus) {
         if (FMLEnvironment.dist == Dist.CLIENT) {
             LoadingBackgrounds.init();
         }

@@ -1,6 +1,5 @@
 package dev.foxgirl.mc.loadingbackgrounds.mixin;
 
-import dev.architectury.platform.Platform;
 import dev.foxgirl.mc.loadingbackgrounds.Config;
 import dev.foxgirl.mc.loadingbackgrounds.LoadingBackgrounds;
 import net.minecraft.client.gui.screens.LevelLoadingScreen;
@@ -63,31 +62,13 @@ public abstract class LevelLoadingScreenMixin extends Screen {
             int height = this.height;
             int diameter = progressListener.getDiameter();
 
-            // The way the Y position affects the widget changed in ~1.20.4
-            // So we need to check the version here and use different math for different versions
-            String version = Platform.getMinecraftVersion();
-            if (
-                !version.startsWith("1.20")
-                || version.equals("1.20.5")
-                || version.equals("1.20.6")
-            ) {
-                switch (position.ordinal()) {
-                    case 1:
-                    case 2:
-                        return diameter + (diameter / 4) + 15;
-                    case 3:
-                    case 4:
-                        return height - diameter - (diameter / 4);
-                }
-            } else {
-                switch (position.ordinal()) {
-                    case 1:
-                    case 2:
-                        return diameter + (diameter / 4);
-                    case 3:
-                    case 4:
-                        return height - diameter - (diameter / 4) - 30;
-                }
+            switch (position.ordinal()) {
+                case 1:
+                case 2:
+                    return diameter + (diameter / 4) + 15;
+                case 3:
+                case 4:
+                    return height - diameter - (diameter / 4);
             }
         }
 

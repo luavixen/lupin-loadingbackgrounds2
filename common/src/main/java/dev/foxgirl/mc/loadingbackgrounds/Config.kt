@@ -2,7 +2,6 @@ package dev.foxgirl.mc.loadingbackgrounds
 
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
-import dev.architectury.platform.Platform
 import java.nio.file.Files
 
 class Config {
@@ -38,7 +37,7 @@ class Config {
             """.trimIndent()
 
         fun load(): Config {
-            val path = Platform.getConfigFolder().resolve("loadingbackgrounds.json")
+            val path = LoadedMod.getInstance().getConfigPath().resolve("loadingbackgrounds.json")
 
             val gson = GsonBuilder()
                 .disableHtmlEscaping()

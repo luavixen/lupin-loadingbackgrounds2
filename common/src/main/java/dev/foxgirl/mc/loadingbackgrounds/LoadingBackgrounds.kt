@@ -7,6 +7,7 @@ import net.minecraft.Util
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.*
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.texture.TextureManager
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.contents.TranslatableContents
@@ -177,15 +178,18 @@ fun renderPNG(screen: Screen, gui: GuiGraphics, png: PNG, brightness: Float, opa
     RenderSystem.setShaderColor(brightness, brightness, brightness, opacity)
 
     gui.blit(
+        RenderType::guiTextured,
         png.location,
-        0, 0, // 0,
+        0, 0,
         offsetX, offsetY,
         screen.width, screen.height,
         (png.width.toFloat() * scaleX).toInt(),
         (png.height.toFloat() * scaleY).toInt(),
     )
 
-    RenderSystem.setShader { shader }
+    if (shader != null) {
+        RenderSystem.setShader(shader)
+    }
     RenderSystem.setShaderColor(shaderColor[0], shaderColor[1], shaderColor[2], shaderColor[3])
     RenderSystem.setShaderTexture(0, shaderTexture)
 
